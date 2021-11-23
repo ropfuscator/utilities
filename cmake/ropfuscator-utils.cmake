@@ -31,6 +31,7 @@ if(USE_LIBC)
 
   if(LIBC)
     list(APPEND ROPFUSCATOR_LIBRARIES ${LIBC})
+    link_libraries(c)
   else()
     message(FATAL_ERROR "libc not found. Alternatively, specify ROPFUSCATOR_LIB with the library path.")
   endif()
@@ -41,19 +42,16 @@ if(USE_LIBROP)
 
   if(LIBROP)
     list(APPEND ROPFUSCATOR_LIBRARIES ${LIBROP})
+    link_libraries(rop)
   else()
     message(FATAL_ERROR "librop not found. Alternatively, specify ROPFUSCATOR_LIB with the library path.")
   endif()
 endif()
 
-if(ROPFUSCATOR_GADGET_LIBRARY)
-  list(APPEND ROPFUSCATOR_LIBRARIES ${ROPFUSCATOR_LIB})
-endif()
-
 if(NOT ROPFUSCATOR_LIBRARIES)
   message(
     FATAL_ERROR
-    "Could not find the libraries to extract gadgets from. Enable USE_LIBC or define ROPFUSCATOR_GADGET_LIBRARY to continue. Terminating.")
+    "Could not find the libraries to extract gadgets from. Enable USE_LIBC or USE_LIBROP (or both) to continue. Terminating.")
 endif()
  
 #######################################
