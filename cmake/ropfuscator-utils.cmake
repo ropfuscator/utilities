@@ -32,7 +32,17 @@ if(USE_LIBC)
   if(LIBC)
     list(APPEND ROPFUSCATOR_LIBRARIES ${LIBC})
   else()
-    message("libc not found.")
+    message(FATAL_ERROR "libc not found. Alternatively, specify ROPFUSCATOR_LIB with the library path.")
+  endif()
+endif()
+
+if(USE_LIBROP)
+  find_library(LIBROP NAMES rop)
+
+  if(LIBROP)
+    list(APPEND ROPFUSCATOR_LIBRARIES ${LIBROP})
+  else()
+    message(FATAL_ERROR "librop not found. Alternatively, specify ROPFUSCATOR_LIB with the library path.")
   endif()
 endif()
 
