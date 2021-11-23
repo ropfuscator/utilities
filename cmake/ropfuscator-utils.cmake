@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.3)
+
 include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag)
 
@@ -19,7 +20,9 @@ if("CXX" IN_LIST languages)
   endif()
 endif()
 
+########################
 # ropfuscator libraries
+#
 
 set(ROPFUSCATOR_LIBRARIES)
 
@@ -42,11 +45,10 @@ if(NOT ROPFUSCATOR_LIBRARIES)
     FATAL_ERROR
     "Could not find the libraries to extract gadgets from. Enable USE_LIBC or define ROPFUSCATOR_GADGET_LIBRARY to continue. Terminating.")
 endif()
-  
-# check that ROPfuscator's llc path has been defined
-if(NOT ROPFUSCATOR_LLC)
-  message(FATAL_ERROR "ROPfuscator's llc path has not been defined. Please set ROPFUSCATOR_LLC to continue.")
-endif()
+ 
+#######################################
+# ROPfuscator default compiler options
+#
 
 set(CMAKE_C_FLAGS "-m32 -fpie")
 set(CMAKE_ASM_FLAGS "-m32 -fpie")
@@ -55,6 +57,10 @@ set(COMPILER_PROFILING_FLAGS -fcoverage-mapping)
 set(LINKER_PROFILING_FLAGS -fprofile-instr-generate)
 set(ROPF_IR_FLAGS -O0 -m32 -c -emit-llvm)
 set(ROPF_ASM_FLAGS -march=x86)
+
+#########
+# Macros
+#
 
 macro(generate_ropfuscated_asm)
   #
@@ -146,7 +152,7 @@ macro(generate_ropfuscated_asm)
   add_custom_command(
     OUTPUT ${ARG_OUTNAME}.s
     DEPENDS ${DEPENDENCIES}
-    COMMAND ${CMAKE_CXX_COMPILER} ARGS ${CLANG_FLAGS} -o ${ARG_OUTNAME}.bc
+    COMMAND ${ROPFUSCATOR_CLANG} ARGS ${CLANG_FLAGS} -o ${ARG_OUTNAME}.bc
     COMMAND ${ROPFUSCATOR_LLC} ARGS ${LLC_FLAGS} -o ${ARG_OUTNAME}.s)
 endmacro()
 
