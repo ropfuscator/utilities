@@ -16,7 +16,7 @@ endif()
 if("CXX" IN_LIST languages)
   check_cxx_compiler_flag(-fno-ropfuscator CXX_IS_ROPFUSCATOR)
   if(NOT CXX_IS_ROPFUSCATOR)
-    message(FATAL_ERROR "The C compiler does not support ROPfuscator. Please make sure to use ROPfuscator's clang.")
+    message(FATAL_ERROR "The CXX compiler does not support ROPfuscator. Please make sure to use ROPfuscator's clang.")
   endif()
 endif()
 
