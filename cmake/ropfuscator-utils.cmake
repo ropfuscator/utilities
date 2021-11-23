@@ -1,3 +1,24 @@
+cmake_minimum_required(VERSION 3.3)
+include(CheckCCompilerFlag)
+include(CheckCXXCompilerFlag)
+
+get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+
+# check if compiler has ROPfuscator
+set(CMAKE_REQUIRED_FLAGS -mllvm)
+
+check_c_compiler_flag(-fno-ropfuscator C_IS_ROPFUSCATOR)
+if(NOT C_IS_ROPFUSCATOR)
+  message(FATAL_ERROR "The C compiler does not support ROPfuscator. Please make sure to use ROPfuscator's clang.")
+endif()
+
+if("CXX" IN_LIST languages)
+  check_cxx_compiler_flag(-fno-ropfuscator CXX_IS_ROPFUSCATOR)
+  if(NOT CXX_IS_ROPFUSCATOR)
+    message(FATAL_ERROR "The C compiler does not support ROPfuscator. Please make sure to use ROPfuscator's clang.")
+  endif()
+endif()
+
 # ropfuscator libraries
 
 set(ROPFUSCATOR_LIBRARIES)
