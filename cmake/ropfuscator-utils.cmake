@@ -48,6 +48,10 @@ if(USE_LIBROP)
   endif()
 endif()
 
+if(ROPFUSCATOR_LIBRARY)
+  link_libraries(${ROPFUSCATOR_LIBRARY})
+endif()
+
 if(NOT ROPFUSCATOR_LIBRARIES)
   message(
     FATAL_ERROR
@@ -197,4 +201,29 @@ macro(generate_clean_asm)
     ${ARG_IRFLAGS}
     GADGET_LIB
     " ")
+endmacro()
+
+macro(add_obfuscated_executable)
+  set(oneValueArgs TARGET CONFIG LIBRARY)
+  set(multiValueArgs SOURCES)
+
+  cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}"
+    ${ARGN})
+  
+  if(NOT ARG_TARGET)
+    message(FATAL_ERROR "Argument TARGET required.")
+    endif()
+  if(NOT ARG_SOURCES)
+    message(FATAL_ERROR "Argument SOURCES required.")
+  endif()
+  if(NOT ARG_LIBRARY)
+    message(FATAL_ERROR "Argument LIBRARY required.")
+    endif()
+  
+  add_executable(${ARG_TARGET} ${ARG_SOURCES})
+  target_compile_options(${ARG_TARGET} PRIVATE "SHELL:-mllvm --ropfuscator-library=${ARG_LIBRARY}")
+  
+  if(ARG_CONFIG)
+    target_compile_options(${ARG_TARGET} PRIVATE "SHELL:-mllvm --ropfuscator-config=${ARG_CONFIG}")
+  endif()
 endmacro()
