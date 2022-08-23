@@ -3,6 +3,7 @@
 [general]
 search_segment_for_gadget = true
 avoid_multiversion_symbol = true
+write_instr_stat = true
 rng_seed = 19931210
 
 [functions.default]

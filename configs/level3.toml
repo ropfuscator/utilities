@@ -4,6 +4,7 @@
 search_segment_for_gadget = true
 avoid_multiversion_symbol = true
 rng_seed = 19931210
+write_instr_stat = true
 
 [functions.default]
 obfuscation_enabled = true
