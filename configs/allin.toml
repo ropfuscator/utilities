@@ -1,5 +1,5 @@
-# This configuration uses ROP chains, opaque predicates and constants.
-# Opaque constants are applied to the majority of the gadgets' addresses, immediates, stack values and branch instructions.
+# This configuration uses ROP chains, opaque predicates and constants to protect the gadget addresses.
+# Opaque constants are applied to all the gadget addresses, stack values, immediate operands and branch targets.
 [general]
 search_segment_for_gadget = true
 avoid_multiversion_symbol = true
@@ -10,7 +10,7 @@ write_instr_stat = true
 obfuscation_enabled = true
 # opaque gadgets
 opaque_gadget_addresses_enabled = true
-gadget_addresses_obfuscation_percentage = 60
+gadget_addresses_obfuscation_percentage = 100
 # opaque predicates
 opaque_predicates_enabled = true
 contextual_opaque_predicates_enabled = true
@@ -18,6 +18,6 @@ opaque_predicates_algorithm = "multcomp"
 # opaque values
 opaque_saved_stack_values_enabled = true
 opaque_immediate_operands_enabled = true
-opaque_immediate_operands_percentage = 60
+opaque_immediate_operands_percentage = 100
 opaque_branch_targets_enabled = true
-opaque_branch_targets_percentage = 60
+opaque_branch_targets_percentage = 100
